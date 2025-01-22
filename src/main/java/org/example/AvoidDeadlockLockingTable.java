@@ -36,7 +36,7 @@ public class AvoidDeadlockLockingTable {
 
     final int isolationLevel;
     static final String[] LOCK_LEVEL_NAMES = {"READ_UN_COMMITED", "READ_COMMITED", "REPEATABLE_READ", "SERIAL"};
-    private final Semaphore rowLocks[];
+    public final Semaphore rowLocks[];
     private final Semaphore table_lock = new Semaphore(1, true);
     long TIME_OUT = 5;
 
@@ -170,7 +170,7 @@ public class AvoidDeadlockLockingTable {
         }
     }
 
-    private boolean shouldAbort(Transaction requester, Transaction holder) {
+    public boolean shouldAbort(Transaction requester, Transaction holder) {
         return favorOldTransactions ?
                 requester.getTimestamp() < holder.getTimestamp() :
                 requester.getTimestamp() > holder.getTimestamp();
